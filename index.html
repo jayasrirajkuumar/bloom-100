@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7eaf5">
+<meta name="description" content="Your personal pastel daily 100-mark to-do tracker.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Bloom — Daily 100</title>
+<style>
+:root{--pink:#f7e7f1;--pink2:#f1d5e7;--lav:#e9e4fa;--lav2:#d9cff5;--ink:#493e55;--muted:#8b8094;--white:#fffafd;--line:#eee4ef;--green:#6d9c83;--shadow:0 10px 30px #715b7812}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#fff8fc,#f7f4ff 60%,#fff9f3);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh}
+main{width:min(760px,100%);margin:auto;padding:24px 17px 50px}
+header{display:flex;justify-content:space-between;align-items:center;margin:8px 0 22px}.brand{display:flex;align-items:center;gap:10px}.flower{width:43px;height:43px;border-radius:15px;background:linear-gradient(140deg,var(--pink2),var(--lav2));display:grid;place-items:center;font-size:23px}.brand h1{font-size:20px;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.date{font-size:12px;color:var(--muted);text-align:right}
+.card{background:#ffffffd9;border:1px solid #fff;box-shadow:var(--shadow);border-radius:23px;padding:19px;margin:14px 0}
+.score-card{background:linear-gradient(120deg,#f8e8f2,#eee9fc);padding:21px}.score-top{display:flex;justify-content:space-between;gap:15px;align-items:center}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:#89758d;font-weight:750}.score{font-size:43px;font-weight:800;letter-spacing:-2px;margin:5px 0}.score small{font-size:17px;color:#8b8094;font-weight:600;letter-spacing:0}.quote{font-size:13px;color:#7d7187;margin:0}.ring{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#a78bd2 var(--progress),#ffffffa8 0);position:relative;flex-shrink:0}.ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:#f5eafa}.ring b{z-index:1;font-size:15px}.bar{height:9px;background:#ffffffb8;border-radius:20px;overflow:hidden;margin-top:17px}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#d99bc5,#9b8bd0);border-radius:20px;transition:width .25s}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px}.section-head h2{font-size:16px;margin:0}.sub{font-size:12px;color:var(--muted);margin:4px 0 0}
+button{font:inherit;cursor:pointer;border:0}.primary{background:linear-gradient(120deg,#dba8ca,#b6a5e4);color:white;padding:11px 15px;border-radius:13px;font-weight:700;box-shadow:0 5px 14px #b89acb33}.soft{background:#f5edf7;color:#786784;padding:9px 12px;border-radius:11px;font-weight:650}.icon-btn{background:#f8f2f8;color:#8d7b91;border-radius:10px;width:34px;height:34px;font-size:16px}
+.task{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line)}.task:first-of-type{border-top:0}.check{width:23px;height:23px;border:1.8px solid #d8c9df;border-radius:8px;display:grid;place-items:center;flex-shrink:0;color:white;background:white}.task.done .check{background:#a98dc9;border-color:#a98dc9}.check:after{content:"✓";font-size:14px;display:none}.task.done .check:after{display:block}.task-info{min-width:0;flex:1}.task-name{font-size:14px;font-weight:650;overflow-wrap:anywhere}.task.done .task-name{text-decoration:line-through;color:#aaa0ad}.task-note{font-size:11px;color:var(--muted);margin-top:3px}.points{font-size:13px;font-weight:750;color:#8d75a7;white-space:nowrap}.task-actions{display:flex;gap:5px}
+.empty{text-align:center;color:var(--muted);padding:22px 8px;font-size:13px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fbf7fc;border-radius:15px;padding:13px}.stat strong{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}
+.history-row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);font-size:13px}.history-row:first-of-type{border-top:0}
+footer{text-align:center;color:#a69aa9;font-size:11px;padding:15px}
+dialog{border:0;border-radius:22px;padding:0;width:min(420px,calc(100% - 30px));box-shadow:0 20px 70px #38264435;color:var(--ink)}dialog::backdrop{background:#372b3f66;backdrop-filter:blur(3px)}.modal{padding:22px}.modal h2{margin:0 0 16px;font-size:18px}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input{width:100%;border:1px solid #e9ddea;border-radius:12px;padding:12px;font:inherit;color:var(--ink);background:#fffaff;outline:none}.field input:focus{border-color:#b89ad2}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.hint{font-size:11px;color:var(--muted);line-height:1.5}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#55445f;color:white;padding:10px 15px;border-radius:12px;font-size:12px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+@media(min-width:620px){main{padding-top:35px}.card{padding:22px}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand"><div class="flower">🌷</div><div><h1>Bloom · Daily 100</h1><p>A little progress, every day</p></div></div><div class="date" id="today"></div></header>
+<section class="card score-card">
+ <div class="score-top"><div><div class="eyebrow">Your daily score</div><div class="score"><span id="score">0</span><small> / 100</small></div><p class="quote" id="message">Every small step counts. You've got this!</p></div><div class="ring" id="ring"><b id="percent">0%</b></div></div>
+ <div class="bar"><span id="progress"></span></div>
+</section>
+<section class="card">
+ <div class="section-head"><div><h2>Today's tasks ✨</h2><p class="sub" id="allocation">100 marks allocated</p></div><button class="primary" id="add">＋ Add task</button></div>
+ <div id="tasks"></div>
+ <p class="hint" id="remaining"></p>
+</section>
+<section class="card">
+ <div class="section-head"><div><h2>Your progress 🌸</h2><p class="sub">A little consistency adds up</p></div></div>
+ <div class="stats"><div class="stat"><strong id="weekScore">0/700</strong><span>This week's marks</span></div><div class="stat"><strong id="daysDone">0</strong><span>Days you reached 100</span></div></div>
+</section>
+<section class="card">
+ <div class="section-head"><div><h2>Recent days</h2><button class="soft" id="export">Export PDF</button></div></div>
+ <div id="history"></div>
+ <p class="hint">Your tasks and scores are saved on this device. Export regularly as a backup.</p>
+</section>
+<footer>Made for your goals · Your data stays on this device 💗</footer>
+</main>
+<dialog id="taskDialog"><form class="modal" id="taskForm"><h2 id="dialogTitle">Add a task</h2><div class="field"><label for="taskName">Task name</label><input id="taskName" maxlength="70" required placeholder="e.g. Practice SQL for 30 minutes"></div><div class="field"><label for="taskPoints">Marks (1–100)</label><input id="taskPoints" type="number" min="1" max="100" required placeholder="e.g. 15"></div><p class="hint" id="modalHint">You can allocate up to 100 marks across all your tasks.</p><div class="modal-actions"><button type="button" class="soft" id="cancel">Cancel</button><button class="primary" type="submit">Save task</button></div></form></dialog>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='bloom_daily_100_v1';
+const starter=[
+ {id:'a1',name:'Complete my important work tasks',points:25,done:false},
+ {id:'a2',name:'Learn or practise a technical skill',points:20,done:false},
+ {id:'a3',name:'Exercise, gym or go for a walk',points:15,done:false},
+ {id:'a4',name:'Read or learn something new',points:10,done:false},
+ {id:'a5',name:'Personal or family responsibilities',points:10,done:false},
+ {id:'a6',name:'Eat well and drink enough water',points:10,done:false},
+ {id:'a7',name:'Plan tomorrow and reflect on today',points:10,done:false}
+];
+let data=load(), editId=null;
+function day(){return new Date().toLocaleDateString('en-CA')}
+function load(){try{let d=JSON.parse(localStorage.getItem(KEY));return d||{date:day(),tasks:starter,history:{}}}catch(e){return{date:day(),tasks:starter,history:{}}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function archiveDay(){let score=data.tasks.filter(t=>t.done).reduce((s,t)=>s+t.points,0);data.history[data.date]={score,completed:data.tasks.filter(t=>t.done).length,total:data.tasks.length};}
+function rollDate(){if(data.date!==day()){archiveDay();data.date=day();data.tasks=data.tasks.map(t=>({...t,done:false}));save()}}
+function total(){return data.tasks.reduce((s,t)=>s+t.points,0)}
+function earned(){return data.tasks.filter(t=>t.done).reduce((s,t)=>s+t.points,0)}
+function toast(msg){let el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
+function render(){
+ rollDate();
+ let score=earned(),pct=score;
+ document.getElementById('today').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+ document.getElementById('score').textContent=score;document.getElementById('percent').textContent=pct+'%';
+ document.getElementById('progress').style.width=pct+'%';document.getElementById('ring').style.setProperty('--progress',pct+'%');
+ document.getElementById('message').textContent=score===100?'You did it! A perfect 100 today. 🌟':score>=70?'Amazing progress. Keep going! 💜':score>0?'Every task completed is a win. 🌷':"Every small step counts. You've got this!";
+ document.getElementById('allocation').textContent=total()+' of 100 marks allocated';
+ document.getElementById('remaining').textContent=(100-total())+' marks available to assign · '+(total()>100?'Reduce task marks to stay within 100.':'');
+ let root=document.getElementById('tasks');root.innerHTML='';
+ if(!data.tasks.length)root.innerHTML='<div class="empty">No tasks yet. Add your first task above 🌸</div>';
+ data.tasks.forEach(t=>{let el=document.createElement('div');el.className='task'+(t.done?' done':'');
+ let check=document.createElement('button');check.className='check';check.setAttribute('aria-label',t.done?'Mark incomplete':'Mark complete');check.onclick=()=>{t.done=!t.done;save();render()};
+ let info=document.createElement('div');info.className='task-info';let name=document.createElement('div');name.className='task-name';name.textContent=t.name;info.append(name);
+ let pts=document.createElement('div');pts.className='points';pts.textContent=t.points+' marks';
+ let actions=document.createElement('div');actions.className='task-actions';
+ let edit=document.createElement('button');edit.className='icon-btn';edit.textContent='✎';edit.setAttribute('aria-label','Edit task');edit.onclick=()=>openDialog(t.id);
+ let del=document.createElement('button');del.className='icon-btn';del.textContent='×';del.setAttribute('aria-label','Delete task');del.onclick=()=>{if(confirm('Delete this task?')){data.tasks=data.tasks.filter(x=>x.id!==t.id);save();render()}};
+ actions.append(edit,del);el.append(check,info,pts,actions);root.append(el)});
+ let hist=Object.entries(data.history).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,7);
+ document.getElementById('history').innerHTML=hist.length?hist.map(([d,v])=>`<div class="history-row"><span>${new Date(d+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})}</span><strong>${v.score}/100</strong></div>`).join(''):'<div class="empty">Your completed days will appear here.</div>';
+ let week=0,perfect=0;let now=new Date();for(let i=0;i<7;i++){let x=new Date(now);x.setDate(now.getDate()-i);let k=x.toLocaleDateString('en-CA');let v=k===data.date?{score:earned()}:data.history[k];if(v){week+=v.score;if(v.score===100)perfect++}}
+ document.getElementById('weekScore').textContent=week+'/700';document.getElementById('daysDone').textContent=perfect;
+}
+function openDialog(id=null){editId=id;let t=data.tasks.find(x=>x.id===id);document.getElementById('dialogTitle').textContent=t?'Edit task':'Add a task';document.getElementById('taskName').value=t?.name||'';document.getElementById('taskPoints').value=t?.points||'';document.getElementById('modalHint').textContent='You can allocate up to 100 marks across all your tasks.';document.getElementById('taskDialog').showModal()}
+document.getElementById('add').onclick=()=>openDialog();document.getElementById('cancel').onclick=()=>document.getElementById('taskDialog').close();
+document.getElementById('taskForm').onsubmit=e=>{e.preventDefault();let name=document.getElementById('taskName').value.trim(),points=Number(document.getElementById('taskPoints').value);let used=total()-(data.tasks.find(t=>t.id===editId)?.points||0);if(!name||!Number.isInteger(points)||points<1||points>100)return;if(used+points>100){toast('Your task marks cannot exceed 100.');return}
+ if(editId){let t=data.tasks.find(x=>x.id===editId);t.name=name;t.points=points}else data.tasks.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name,points,done:false});save();document.getElementById('taskDialog').close();render();toast('Task saved 💗')};
+document.getElementById('export').onclick=()=>{
+ archiveDay();save();
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const score=earned(), dateLabel=new Date(data.date+'T12:00:00').toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ const taskRows=data.tasks.map(t=>`<tr><td>${esc(t.name)}</td><td>${t.points}</td><td>${t.done?'Completed':'Not completed'}</td><td>${t.done?t.points:0}</td></tr>`).join('');
+ const historyRows=Object.entries(data.history).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,31).map(([d,v])=>`<tr><td>${new Date(d+'T12:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}</td><td>${v.score}/100</td><td>${v.completed} of ${v.total}</td></tr>`).join('');
+ const w=window.open('','_blank');
+ if(!w){toast('Allow pop-ups to create your PDF.');return;}
+ w.document.write(`<!doctype html><html><head><title>Bloom Daily 100 Report</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:Arial,sans-serif;color:#493e55;padding:28px;max-width:850px;margin:auto}h1{color:#936fae;margin-bottom:4px}.muted{color:#807487;font-size:12px}.score{background:#f4eafa;border-radius:14px;padding:18px;margin:22px 0}.score b{font-size:32px;color:#8c6cac}h2{font-size:17px;margin-top:26px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #eadfeb}th{background:#f8f1f8;color:#6b5875}.foot{margin-top:30px;color:#998da0;font-size:10px}@media print{body{padding:0}@page{margin:16mm}}</style></head><body><h1>🌷 Bloom · Daily 100</h1><div class="muted">Personal productivity report · ${esc(dateLabel)}</div><div class="score"><div>Today's score</div><b>${score} / 100</b><div>${score===100?'Daily goal achieved!':score+' marks earned today'}</div></div><h2>Today's tasks</h2><table><thead><tr><th>Task</th><th>Marks</th><th>Status</th><th>Earned</th></tr></thead><tbody>${taskRows||'<tr><td colspan="4">No tasks added</td></tr>'}</tbody><tfoot><tr><th>Total</th><th>${total()}</th><th></th><th>${score}</th></tr></tfoot></table><h2>Recent daily scores</h2><table><thead><tr><th>Date</th><th>Score</th><th>Tasks completed</th></tr></thead><tbody>${historyRows||'<tr><td colspan="3">No previous history yet</td></tr>'}</tbody></table><div class="foot">Generated by Bloom · Daily 100. Your personal productivity tracker.</div><script>window.onload=()=>setTimeout(()=>window.print(),300);</script></body></html>`);
+ w.document.close();toast('PDF report is ready — choose Save as PDF.');
+};
+render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
